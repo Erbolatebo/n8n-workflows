@@ -1,0 +1,122 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds",
+              "secondsInterval": 5
+            },
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "784c58c9-9b64-4414-9730-da37bb53e36c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://api.spoonacular.com/recipes/random",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "1"
+            },
+            {
+              "name": "tags",
+              "value": "dessert"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "cf44e134-aa68-4180-9f5a-2e37688b4700",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "JBUnDQ6UuKa75L6k",
+          "name": "Food Query Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "5255049698",
+        "file": "={{ $json.recipes[0].image }}",
+        "additionalFields": {
+          "caption": "={{ $json.recipes[0].title }}\n\n{{ $json.recipes[0].sourceUrl }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "1ab97269-2381-49fd-8d6c-ddd47830bcfc",
+      "name": "Send a photo message",
+      "webhookId": "f9dd9da0-e01d-42b6-9474-e48738bb233b",
+      "credentials": {
+        "telegramApi": {
+          "id": "TQNGux7aYj4naAlU",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e63733fc-5515-40c0-97bc-33b398cf984d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7ae74013ff7fdc7e4ba080729787c706d8459ff27de0908c7925bf33be35df07"
+  },
+  "id": "rKmK2tqmPrGN0k8v",
+  "tags": []
+}
