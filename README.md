@@ -8,6 +8,10 @@
 
 ---
 
+![image](https://github.com/user-attachments/assets/0fc67522-20c7-4428-8181-7b1f61c51a8c)
+
+---
+
 ## 🔧 Структура Workflow
 
 ```mermaid
@@ -15,4 +19,3 @@ graph TD
   A[Schedule Trigger] --> B[HTTP Request (Spoonacular API)]
   B --> C[Telegram: sendPhoto]
 
-![image](https://github.com/user-attachments/assets/b192dad9-87a5-41de-88e8-099a3299b758)
